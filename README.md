@@ -15,7 +15,7 @@ It has no dependencies outside Apple's SDK.
 ## What it does not do
 
 - No networking. You send the requests.
-- No session policy. Your code decides when to retry after a `401`, when to send credentials without waiting for a challenge, how to count nonce use, and what to do with `stale=true` or `nextnonce`. Different protocols need different rules. [MMKit](https://github.com/avgx/MMKit) (RTSP) and OnvifThings (ONVIF over HTTP) are two callers with their own rules.
+- No session policy. Your code decides when to retry after a `401`, when to send credentials without waiting for a challenge, how to count nonce use, and what to do with `stale=true` or `nextnonce`. Different protocols need different rules.
 - No Basic authentication. It is one line of Base64 and does not need a library.
 
 ## Why it exists
