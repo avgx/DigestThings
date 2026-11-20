@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Build and test (macOS, Xcode Swift)
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Use Xcode's bundled Swift rather than swift-actions/setup-swift (OSS toolchains can differ from local Xcode).
+      - name: Toolchain info
+        run: |
+          xcodebuild -version
+          which swift
+          xcrun -f swift
+          swift --version
+
+      - name: Build (debug)
+        run: swift build -v
+
+      # Release runs a different SIL pipeline than debug.
+      - name: Build (release)
+        run: swift build -c release -v
+
+      - name: Run tests
+        run: swift test -v
